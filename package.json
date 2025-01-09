@@ -1,0 +1,21 @@
+{
+  "name": "express-microservices",
+  "version": "1.0.0",
+  "description": "Microservices with Express.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"nodemon api-gateway\" \"nodemon services/users\" \"nodemon services/auth\" \"nodemon services/products\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^3.0.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  }
+}
