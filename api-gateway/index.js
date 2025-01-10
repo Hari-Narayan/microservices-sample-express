@@ -1,53 +1,26 @@
-// // api-gateway/index.js
-// import express from "express";
-
-// import route from "./route.js";
-
-// const port = 3000;
-// const app = express();
-
-// app.use("/", route);
-
-// app.listen(port, () => {
-//   console.log(`API Gateway listening on port ${port}`);
-// });
-
-import dotenv from "dotenv";
+import cors from "cors";
 import express from "express";
-import jwt from "jsonwebtoken";
-import httpProxy from "http-proxy";
-// import { auth } from "../services/middlewares/auth.js";
+import { config } from "dotenv";
+
+config();
+
+import router from "./route.js";
+import { errorHandler, patchRequestToken } from "./middlewares.js";
 
 const app = express();
-const proxy = httpProxy.createProxyServer();
+const port = process.env.GATEWAY_PORT;
 
-dotenv.config();
-
-const port = 3000;
-
-const JWT_SECRETE = process.env.JWT_SECRETE || "dkcgjsdbchjdsb";
+app.use(cors());
+app.use(patchRequestToken);
 
 app.get("/", (req, res) => {
-  console.log("API Gateway is running..");
-  return res.send("API Gateway is running..");
+	return res.send("API Gateway is running..");
 });
 
-app.use("/auth", (req, res) => {
-  console.log("here");
-  proxy.web(req, res, { target: "http://localhost:3003" });
-});
+app.use("/", router);
 
-app.use("/users", (req, res) => {
-  console.log("here");
-  proxy.web(req, res, { target: "http://localhost:3001" });
-});
-
-app.use("/products", (req, res) => {
-  console.log("products");
-
-  proxy.web(req, res, { target: "http://localhost:3002" });
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log("API Gateway is running : ", port);
+	console.info(`API Gateway is running on http://localhost:${port}`);
 });

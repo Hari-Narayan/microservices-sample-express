@@ -8,6 +8,7 @@
     "start": "concurrently \"nodemon api-gateway\" \"nodemon services/users\" \"nodemon services/auth\" \"nodemon services/products\""
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "http-proxy": "^1.18.1",

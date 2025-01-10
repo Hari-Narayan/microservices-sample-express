@@ -1,14 +1,21 @@
-import express from "express"; // Use import
+import { config } from "dotenv";
+import express, { json } from "express";
+
+config();
 
 import route from "./route.js";
-import { authRole, authToken } from "../middlewares/auth.js";
+import { auth, authRole } from "../middlewares/auth.js";
+import { matchRequestToken } from "../middlewares/common.js";
 
-const port = 3001;
 const app = express();
+const port = process.env.USER_PORT;
 
-app.use(express.json());
-app.use("/", [authToken, authRole("user")], route);
+app.use(json());
+app.use(matchRequestToken);
+app.use(auth);
+
+app.use("/", [authRole("user")], route);
 
 app.listen(port, () => {
-  console.log(`User Service: http://localhost:${port}`);
+	console.info(`User Service: http://localhost:${port}`);
 });
