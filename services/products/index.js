@@ -5,17 +5,15 @@ config();
 
 import route from "./route.js";
 import { auth, authRole } from "../middlewares/auth.js";
-import { matchRequestToken } from "../middlewares/common.js";
+import { matchRequestToken, responseHandler } from "../middlewares/common.js";
 
 const app = express();
 const port = process.env.PRODUCT_PORT;
 
-app.use(json());
-app.use(matchRequestToken);
-app.use(auth);
+app.use([json(), responseHandler, matchRequestToken, auth, authRole("admin")]);
 
-app.use("/", [authRole("admin")], route);
+app.use("/", route);
 
 app.listen(port, () => {
-	console.info(`Product Service: http://localhost:${port}`);
+  console.info(`Product Service: http://localhost:${port}`);
 });

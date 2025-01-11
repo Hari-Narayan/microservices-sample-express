@@ -4,10 +4,7 @@ import { register, login } from "./controller.js";
 
 const router = express.Router();
 
-router.post("/register", register);
 router.post("/login", login);
-router.get("/", (req, res) => {
-	return res.json({ message: "sdjkfgvbsdfjksdbnfjksdn" });
-});
+router.post("/register", register);
 
 export default router;

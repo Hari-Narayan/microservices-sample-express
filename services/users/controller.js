@@ -1,11 +1,9 @@
-import { User } from "../../models/user.js";
-
 export const getAllUsers = (req, res) => {
-	const users = [{ name: "test", email: "test@test.com" }];
-	res.json(users);
+  const users = [{ name: "test", email: "test@test.com" }];
+  return res.sendResponse("User found successfully", users);
 };
 
 export const createUser = (req, res) => {
-	const newUser = req.body;
-	res.status(201).json({ message: "User created", user: newUser });
+  const newUser = req.body;
+  return res.status(201).sendResponse("User created", newUser);
 };

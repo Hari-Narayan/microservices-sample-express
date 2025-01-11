@@ -5,17 +5,15 @@ config();
 
 import route from "./route.js";
 import { auth, authRole } from "../middlewares/auth.js";
-import { matchRequestToken } from "../middlewares/common.js";
+import { errorHandler, matchRequestToken, responseHandler } from "../middlewares/common.js";
 
 const app = express();
 const port = process.env.USER_PORT;
 
-app.use(json());
-app.use(matchRequestToken);
-app.use(auth);
+app.use([json(), responseHandler, matchRequestToken, auth, authRole("user")]);
 
-app.use("/", [authRole("user")], route);
+app.use("/", route);
 
 app.listen(port, () => {
-	console.info(`User Service: http://localhost:${port}`);
+  console.info(`User Service: http://localhost:${port}`);
 });
