@@ -4,6 +4,10 @@ import express, { json } from "express";
 config();
 
 import route from "./route.js";
+import connectDB from "../../utils/connection.js";
+
+connectDB();
+
 import { matchRequestToken, responseHandler } from "../middlewares/common.js";
 
 const app = express();
