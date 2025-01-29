@@ -4,12 +4,11 @@ import express, { json } from "express";
 config();
 
 import route from "./route.js";
-import connectDB from "../../utils/connection.js";
-
-connectDB();
-
+import connectProductDB from "./connection.js";
 import { auth, authRole } from "../middlewares/auth.js";
 import { matchRequestToken, responseHandler } from "../middlewares/common.js";
+
+connectProductDB();
 
 const app = express();
 const port = process.env.PRODUCT_PORT;
